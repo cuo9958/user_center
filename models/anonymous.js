@@ -6,37 +6,37 @@ const Anonymous = db.define(
     {
         uuid: {
             primaryKey: true,
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(40),
             defaultValue: '',
             comment: '用户的uid'
         },
         brand: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(40),
             defaultValue: '',
             comment: '品牌'
         },
         bundle_id: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(50),
             defaultValue: '',
             comment: '应用程序包名'
         },
         device_id: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(50),
             defaultValue: '',
             comment: '手机设备id'
         },
         device_type: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(50),
             defaultValue: '',
             comment: '手机设备类型'
         },
         facturer: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(50),
             defaultValue: '',
             comment: '手机制造商'
         },
         sys_name: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(50),
             defaultValue: '',
             comment: '操作系统名称'
         },
@@ -51,22 +51,22 @@ const Anonymous = db.define(
             comment: '内存大小'
         },
         unique_id: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(50),
             defaultValue: '',
             comment: '设备唯一id'
         },
         notch: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(10),
             defaultValue: '',
             comment: '设备是否有凹口'
         },
         tablet: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(10),
             defaultValue: '',
             comment: '设备是否平板'
         },
         emulator: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(10),
             defaultValue: '',
             comment: '设备是否模拟器'
         },

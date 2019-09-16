@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "启动服务",
             "program": "${workspaceFolder}/index.js",
             "env": {
                 "NODE_ENV": "development"

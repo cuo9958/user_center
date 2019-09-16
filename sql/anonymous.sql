@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `t_anonymous` (
+  `uuid` VARCHAR(40) DEFAULT '' COMMENT '用户的uid',
+  `brand` VARCHAR(40) DEFAULT '' COMMENT '品牌',
+  `bundle_id` VARCHAR(50) DEFAULT '' COMMENT '应用程序包名',
+  `device_id` VARCHAR(50) DEFAULT '' COMMENT '手机设备id',
+  `device_type` VARCHAR(50) DEFAULT '' COMMENT '手机设备类型',
+  `facturer` VARCHAR(50) DEFAULT '' COMMENT '手机制造商',
+  `sys_name` VARCHAR(50) DEFAULT '' COMMENT '操作系统名称',
+  `disk_total` VARCHAR(255) DEFAULT '' COMMENT '硬盘大小',
+  `memory_total` VARCHAR(255) DEFAULT '' COMMENT '内存大小',
+  `unique_id` VARCHAR(50) DEFAULT '' COMMENT '设备唯一id',
+  `notch` VARCHAR(10) DEFAULT '' COMMENT '设备是否有凹口',
+  `tablet` VARCHAR(10) DEFAULT '' COMMENT '设备是否平板',
+  `emulator` VARCHAR(10) DEFAULT '' COMMENT '设备是否模拟器',
+  `supported_abis` VARCHAR(255) DEFAULT '' COMMENT '处理器支持的内部版本',
+  `status` TINYINT(1) DEFAULT 0 COMMENT '状态，默认0',
+  `createdAt` DATETIME NOT NULL,
+  `updatedAt` DATETIME NOT NULL,
+  PRIMARY KEY (`uuid`)
+) ENGINE = InnoDB;
