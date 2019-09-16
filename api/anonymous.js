@@ -6,6 +6,7 @@
 const Router = require('koa-router');
 const name = require('../utils/name');
 const AnonymousModel = require('../models/anonymous');
+const UserModel = require('../models/user');
 
 const router = new Router();
 
@@ -19,6 +20,13 @@ router.get('/login', function(ctx, next) {
         status: 1,
         data: model.uuid
     };
+    UserModel.findOne({ uuid: model.uuid })
+        .then(res => {
+            if (!res) {
+                UserModel.insert({ uuid: model.uuid });
+            }
+        })
+        .catch(err => console.log(err.message));
 });
 /**
  * 游客鉴权，必须登录之后才会鉴权成功。

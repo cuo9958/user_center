@@ -10,9 +10,9 @@ const User = db.define(
             autoIncrement: true
         },
         uuid: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(40),
             defaultValue: '',
-            comment: '用户的uid'
+            comment: '用户的uuid'
         },
         username: {
             type: Sequelize.STRING,
@@ -24,15 +24,10 @@ const User = db.define(
             defaultValue: '',
             comment: '手机号'
         },
-        nickname: {
+        openid: {
             type: Sequelize.STRING,
             defaultValue: '',
-            comment: '发布人'
-        },
-        pwd: {
-            type: Sequelize.STRING,
-            defaultValue: '',
-            comment: '密码'
+            comment: '微信的openid'
         },
         status: {
             type: Sequelize.TINYINT,
@@ -57,40 +52,13 @@ module.exports = {
     insert: function(model) {
         return User.create(model);
     },
-    find: function(username) {
+    findOne: function(data) {
         return User.findOne({
-            where: {
-                username
-            }
-        });
-    },
-    update: function(model, id) {
-        return User.update(model, {
-            where: {
-                id
-            }
+            where: data
         });
     },
     get: function(id) {
         return User.findOne({
-            where: {
-                id
-            }
-        });
-    },
-    getCount(limit = 1, opts = {}) {
-        let config = {
-            limit: 20,
-            offset: (limit - 1) * 20,
-            order: [['status', 'desc'], ['id', 'desc']]
-        };
-        return User.findAndCountAll(config);
-    },
-    change: function(status, id) {
-        const model = {
-            status
-        };
-        return User.update(model, {
             where: {
                 id
             }
