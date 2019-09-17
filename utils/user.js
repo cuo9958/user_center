@@ -16,7 +16,7 @@ module.exports = {
     },
     setSession(uuid, token, data) {
         //设置缓存生效时间一个月，60*60*24*30=2592000
-        Redis.set(`user_${uuid}_${token}`, JSON.stringify(data), 'EX', 100);
+        Redis.set(`user_${uuid}_${token}`, JSON.stringify(data), 'EX', 2592000);
     },
     async getSession(uuid, token) {
         const data = await Redis.get(`user_${uuid}_${token}`);
