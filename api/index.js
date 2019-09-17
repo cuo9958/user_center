@@ -7,7 +7,7 @@ const UserUtil = require('../utils/user');
 
 const router = new Router();
 
-router.get('/', async function(ctx, next) {
+router.get('/test', async function(ctx, next) {
     const uuid = name.gentear(ctx.query, ctx.headers);
     ctx.body = {
         code: 1,
@@ -17,14 +17,11 @@ router.get('/', async function(ctx, next) {
         }
     };
 });
-router.post('/', async function(ctx, next) {
-    const uuid = name.gentear(ctx.request.body, ctx.headers);
+router.get('/', async function(ctx, next) {
     ctx.body = {
         code: 1,
         msg: '',
-        data: {
-            uuid
-        }
+        data: {}
     };
 });
 

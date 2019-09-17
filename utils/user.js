@@ -1,5 +1,11 @@
 const nanoid = require('nanoid');
 const Redis = require('../db/redis');
+const LRU = require('lru-cache');
+
+//10秒缓存
+const cache = new LRU({
+    maxAge: 1000 * 10
+});
 
 module.exports = {
     /**
@@ -16,5 +22,22 @@ module.exports = {
         const data = await Redis.get(`user_${uuid}_${token}`);
         if (!data) return null;
         return JSON.parse(data);
+    },
+    //快速检查用户身份
+    async check(uuid, token) {
+        const key = `user_${uuid}_${token}`;
+        let data = cache.get(key);
+        console.log(data);
+        if (!data) {
+            data = await Redis.get(key);
+            console.log('redis', data);
+            if (!data) {
+                console.log("设置不存在的值")
+                cache.set(key, 'none');
+            } else {
+                cache.set(key, data);
+            }
+        }
+        return !!data && data !== 'none';
     }
 };

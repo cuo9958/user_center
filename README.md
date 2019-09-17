@@ -2,6 +2,12 @@
 
 ### 用户管理
 
+#### 接口访问
+
+1. 所有接口访问都需要在header中携带uuid和token
+2. 根据不同的类型调用不用的登录
+3. 所有鉴权统一使用user下的auth接口
+
 #### 用户鉴权
 
 GET `/api_user/user/auth?token=abc123`
