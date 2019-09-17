@@ -27,12 +27,9 @@ module.exports = {
     async check(uuid, token) {
         const key = `user_${uuid}_${token}`;
         let data = cache.get(key);
-        console.log(data);
         if (!data) {
             data = await Redis.get(key);
-            console.log('redis', data);
             if (!data) {
-                console.log("设置不存在的值")
                 cache.set(key, 'none');
             } else {
                 cache.set(key, data);
