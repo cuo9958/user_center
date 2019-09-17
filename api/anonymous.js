@@ -8,8 +8,14 @@ const name = require('../utils/name');
 const AnonymousModel = require('../models/anonymous');
 const UserModel = require('../models/user');
 const UserUtil = require('../utils/user');
+const LRU = require('lru-cache');
 
 const router = new Router();
+
+//1小时缓存
+const cache = new LRU({
+    maxAge: 1000 * 60 * 60
+});
 
 /**
  * 游客登录:
@@ -20,6 +26,15 @@ const router = new Router();
  */
 router.post('/login', async function(ctx, next) {
     const model = name.guid(ctx.request.body, ctx.headers);
+    if (cache.has(model.uuid)) {
+        return (ctx.body = {
+            code: 1,
+            data: {
+                uuid: model.uuid,
+                token: cache.get(model.uuid)
+            }
+        });
+    }
     const sessionKey = UserUtil.getSessionKey();
     try {
         await AnonymousModel.insert(model);
@@ -27,6 +42,7 @@ router.post('/login', async function(ctx, next) {
     } catch (err) {
         console.log(err.message);
     }
+    cache.set(model.uuid, sessionKey);
     ctx.body = {
         code: 1,
         data: {
@@ -45,6 +61,15 @@ router.post('/login', async function(ctx, next) {
 
 router.get('/login', async function(ctx, next) {
     const model = name.guid(ctx.query, ctx.headers);
+    if (cache.has(model.uuid)) {
+        return (ctx.body = {
+            code: 1,
+            data: {
+                uuid: model.uuid,
+                token: cache.get(model.uuid)
+            }
+        });
+    }
     const sessionKey = UserUtil.getSessionKey();
     try {
         await AnonymousModel.insert(model);
@@ -52,6 +77,7 @@ router.get('/login', async function(ctx, next) {
     } catch (err) {
         console.log(err.message);
     }
+    cache.set(model.uuid, sessionKey);
     ctx.body = {
         code: 1,
         data: {
