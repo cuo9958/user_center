@@ -7,45 +7,65 @@ const Router = require('koa-router');
 const name = require('../utils/name');
 const AnonymousModel = require('../models/anonymous');
 const UserModel = require('../models/user');
+const UserUtil = require('../utils/user');
 
 const router = new Router();
 
 /**
- * 游客登录
+ * 游客登录:
+ * 1.插入一条对应的数据，key是设备信息的md5
+ * 2.获取一个key并返回
+ * 3.写入主用户库
+ * 4.把key和对应的主库id写入redis作为缓存
  */
-router.get('/login', function(ctx, next) {
-    const model = name.guid(ctx.query, ctx.headers);
-    AnonymousModel.insert(model).catch(err => console.log(err.message));
+router.post('/login', async function(ctx, next) {
+    const model = name.guid(ctx.request.body, ctx.headers);
+    const sessionKey = UserUtil.getSessionKey();
+    try {
+        await AnonymousModel.insert(model);
+        await UserModel.insert({ uuid: model.uuid });
+    } catch (err) {
+        console.log(err.message);
+    }
     ctx.body = {
-        status: 1,
-        data: model.uuid
+        code: 1,
+        data: {
+            uuid: model.uuid,
+            token: sessionKey
+        }
     };
     UserModel.findOne({ uuid: model.uuid })
         .then(res => {
-            if (!res) {
-                UserModel.insert({ uuid: model.uuid });
+            if (!!res) {
+                UserUtil.setSession(model.uuid, sessionKey, res);
             }
         })
         .catch(err => console.log(err.message));
 });
-/**
- * 游客鉴权，必须登录之后才会鉴权成功。
- * 不需要鉴权则不用调
- */
-router.get('/auth', async function(ctx, next) {
-    const uuid = name.gentear(ctx.query, ctx.headers);
-    const data = await AnonymousModel.find(uuid);
-    if (!!data) {
-        ctx.body = {
-            status: 1,
-            data: uuid
-        };
-    } else {
-        ctx.body = {
-            status: 0,
-            data: uuid
-        };
+
+router.get('/login', async function(ctx, next) {
+    const model = name.guid(ctx.query, ctx.headers);
+    const sessionKey = UserUtil.getSessionKey();
+    try {
+        await AnonymousModel.insert(model);
+        await UserModel.insert({ uuid: model.uuid });
+    } catch (err) {
+        console.log(err.message);
     }
+    ctx.body = {
+        code: 1,
+        data: {
+            uuid: model.uuid,
+            token: sessionKey
+        }
+    };
+    UserModel.findOne({ uuid: model.uuid })
+        .then(res => {
+            if (!!res) {
+                UserUtil.setSession(model.uuid, sessionKey, res);
+            }
+        })
+        .catch(err => console.log(err.message));
 });
 
 exports.routers = router.routes();

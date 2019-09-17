@@ -1,8 +1,24 @@
 ## 用户中心
 
-### 参数
+### 用户管理
 
-参数来源：head、get传参、post传参.不开启则不传
+#### 用户鉴权
+
+GET `/api_user/user/auth?token=abc123`
+
+1. 参数：token:用户的 token
+2. 参数：uuid：用户的uuid
+3. 返回：用户信息
+
+### 游客类型访问
+
+#### 游客注册
+
+POST `/api_user/any/login`
+
+#### 参数
+
+参数来源：head、post 传参.不开启则不传
 
 ```javascript
  /*
@@ -21,17 +37,7 @@
  * @param {*} data.emulator? 设备是否模拟器
  * @param {*} data.supported_abis? 处理器支持的内部版本
  * /
- ```
+```
 
-### 游客类型访问
-
-#### 游客注册
-
-1. 接口地址`/api_user/any`
-2. 功能：登录、鉴权
-
-##### 登录
-`/login`
-
-1. 方法：get
-2. 参数：get传参或者head中携带
+1. 传递设备参数，生成设备对应的唯一id
+2. 返回用户的uuid和token

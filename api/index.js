@@ -2,13 +2,15 @@ const Router = require('koa-router');
 const name = require('../utils/name');
 const config = require('config');
 const UserModel = require('../models/user');
+const Redis = require('../db/redis');
+const UserUtil = require('../utils/user');
 
 const router = new Router();
 
 router.get('/', async function(ctx, next) {
     const uuid = name.gentear(ctx.query, ctx.headers);
     ctx.body = {
-        status: 1,
+        code: 1,
         msg: '',
         data: {
             uuid
@@ -18,7 +20,7 @@ router.get('/', async function(ctx, next) {
 router.post('/', async function(ctx, next) {
     const uuid = name.gentear(ctx.request.body, ctx.headers);
     ctx.body = {
-        status: 1,
+        code: 1,
         msg: '',
         data: {
             uuid
@@ -34,4 +36,24 @@ router.post('/', async function(ctx, next) {
  * 4.用户鉴权校验
  */
 
+router.get('/auth', async function(ctx, next) {
+    const token = ctx.query.token;
+    const uuid = ctx.query.uuid;
+    try {
+        const model = await UserUtil.getSession(uuid, token);
+        if (!model) throw new Error('用户不存在');
+        ctx.body = {
+            code: 1,
+            data: {
+                uuid: model.uuid,
+                username: model.username
+            }
+        };
+    } catch (error) {
+        ctx.body = {
+            code: 0,
+            msg: error.message
+        };
+    }
+});
 exports.routers = router.routes();

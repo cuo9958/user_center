@@ -17,7 +17,7 @@ app.use(async (ctx, next) => {
 
 app.use(bodyParser());
 
-router.use('/api_user/auth', require('./api/index').routers);
+router.use('/api_user/user', require('./api/index').routers);
 router.use('/api_user/any', require('./api/anonymous').routers);
 
 app.use(router.routes()).use(router.allowedMethods());
