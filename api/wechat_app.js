@@ -55,15 +55,15 @@ router.post('/update', async function(ctx, next) {
     const token = ctx.query.token;
     const uuid = ctx.query.uuid;
 
-    const model = ctx.request.body;
+    const data = ctx.request.body;
     try {
         const model = await UserUtil.getSession(uuid, token);
         if (!model) throw new Error('登录失效');
-        WechatAppModel.update(model, uuid);
+        WechatAppModel.update(data, uuid);
         UserModel.update(
             {
-                username: model.nickName,
-                headimg: model.avatarUrl
+                username: data.nickName,
+                headimg: data.avatarUrl
             },
             uuid
         );
