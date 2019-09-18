@@ -18,11 +18,24 @@ router.get('/test', async function(ctx, next) {
     };
 });
 router.get('/', async function(ctx, next) {
-    ctx.body = {
-        code: 1,
-        msg: '',
-        data: {}
-    };
+    const token = ctx.query.token;
+    const uuid = ctx.query.uuid;
+    try {
+        const model = await UserUtil.getSession(uuid, token);
+        ctx.body = {
+            code: 1,
+            data: {
+                uuid: model.uuid,
+                username: model.username,
+                headimg: model.headimg
+            }
+        };
+    } catch (error) {
+        ctx.body = {
+            code: 0,
+            msg: '用户不存在'
+        };
+    }
 });
 
 /**
