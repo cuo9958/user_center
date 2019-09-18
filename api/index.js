@@ -18,8 +18,8 @@ router.get('/test', async function(ctx, next) {
     };
 });
 router.get('/', async function(ctx, next) {
-    const token = ctx.query.token;
-    const uuid = ctx.query.uuid;
+    const token = ctx.headers.token;
+    const uuid = ctx.headers.uuid;
     try {
         const model = await UserUtil.getSession(uuid, token);
         ctx.body = {
@@ -31,6 +31,7 @@ router.get('/', async function(ctx, next) {
             }
         };
     } catch (error) {
+        console.log(error)
         ctx.body = {
             code: 0,
             msg: '用户不存在'
