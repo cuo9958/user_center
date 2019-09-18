@@ -52,8 +52,8 @@ router.all('/login', async function(ctx, next) {
 });
 
 router.post('/update', async function(ctx, next) {
-    const token = ctx.query.token;
-    const uuid = ctx.query.uuid;
+    const token = ctx.headers.token;
+    const uuid = ctx.headers.uuid;
 
     const data = ctx.request.body;
     try {
