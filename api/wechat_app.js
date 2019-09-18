@@ -52,18 +52,30 @@ router.all('/login', async function(ctx, next) {
 });
 
 router.post('/update', async function(ctx, next) {
-    const uuid = ctx.headers.uuid;
+    const token = ctx.query.token;
+    const uuid = ctx.query.uuid;
+
     const model = ctx.request.body;
-    WechatAppModel.update(model, uuid);
-    UserModel.update(
-        {
-            username: model.nickName,
-            headimg:model.avatarUrl
-        },
-        uuid
-    );
-    ctx.body = {
-        code: 1
-    };
+    try {
+        const model = await UserUtil.getSession(uuid, token);
+        if (!model) throw new Error('登录失效');
+        WechatAppModel.update(model, uuid);
+        UserModel.update(
+            {
+                username: model.nickName,
+                headimg: model.avatarUrl
+            },
+            uuid
+        );
+        ctx.body = {
+            code: 1,
+            data: {}
+        };
+    } catch (error) {
+        ctx.body = {
+            code: 0,
+            msg: error.message
+        };
+    }
 });
 exports.routers = router.routes();

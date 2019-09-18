@@ -47,3 +47,17 @@ POST `/api_user/any/login`
 
 1. 传递设备参数，生成设备对应的唯一id
 2. 返回用户的uuid和token
+
+#### 小程序接口
+
+##### 登录接口
+GET/POST `/api_user/wechat_app/login`
+
+1. 参数：code。
+2. 返回：uuid、token
+
+##### 更新用户信息
+POST `/api_user/wechat_app/update`
+
+1. 参数：微信返回的用户信息
+2. 返回：null
