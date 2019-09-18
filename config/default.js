@@ -13,5 +13,10 @@ module.exports = {
     //单台redis连接,支持字符串和对象
     redis: 'redis://127.0.0.1:6379',
     //redis集群模式
-    redisCluster: []
+    redisCluster: [],
+    //小程序的配置
+    wechat_app: {
+        appid: '',
+        secret: ''
+    }
 };

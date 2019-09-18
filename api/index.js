@@ -38,7 +38,7 @@ router.get('/auth', async function(ctx, next) {
     const uuid = ctx.query.uuid;
     try {
         const model = await UserUtil.getSession(uuid, token);
-        if (!model) throw new Error('用户不存在');
+        if (!model) throw new Error('登录失效');
         ctx.body = {
             code: 1,
             data: {

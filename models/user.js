@@ -19,6 +19,11 @@ const User = db.define(
             defaultValue: '',
             comment: '用户名'
         },
+        headimg: {
+            type: Sequelize.STRING,
+            defaultValue: '',
+            comment: '头像'
+        },
         tell: {
             type: Sequelize.STRING,
             defaultValue: '',
@@ -61,6 +66,13 @@ module.exports = {
         return User.findOne({
             where: {
                 id
+            }
+        });
+    },
+    update(model, uuid) {
+        return User.update(model, {
+            where: {
+                uuid
             }
         });
     }

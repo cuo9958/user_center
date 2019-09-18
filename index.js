@@ -17,8 +17,12 @@ app.use(async (ctx, next) => {
 
 app.use(bodyParser());
 
+//用户主体
 router.use('/api_user/user', require('./api/index').routers);
+//游客
 router.use('/api_user/any', require('./api/anonymous').routers);
+//小程序
+router.use('/api_user/wechat_app', require('./api/wechat_app').routers);
 
 app.use(router.routes()).use(router.allowedMethods());
 
