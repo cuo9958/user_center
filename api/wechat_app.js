@@ -1,14 +1,19 @@
 const Router = require('koa-router');
 const config = require('config');
 const UserModel = require('../models/user');
-const Redis = require('../db/redis');
 const UserUtil = require('../utils/user');
 const axios = require('axios');
 const WechatAppModel = require('../models/wechat_app');
+const LRU = require('lru-cache');
 
 const router = new Router();
 const appid = config.get('wechat_app.appid');
 const secret = config.get('wechat_app.secret');
+
+//1天缓存
+const cache = new LRU({
+    maxAge: 1000 * 60 * 60 * 24
+});
 
 router.all('/login', async function(ctx, next) {
     const code = ctx.request.body.code || ctx.query.code;
@@ -56,6 +61,12 @@ router.post('/update', async function(ctx, next) {
     const uuid = ctx.headers.uuid;
 
     const data = ctx.request.body;
+    if (cache.has(uuid)) {
+        return (ctx.body = {
+            code: 1,
+            data: {}
+        });
+    }
     try {
         const model = await UserUtil.getSession(uuid, token);
         if (!model) throw new Error('登录失效');
@@ -67,6 +78,7 @@ router.post('/update', async function(ctx, next) {
             },
             uuid
         );
+        cache.set(uuid, true);
         ctx.body = {
             code: 1,
             data: {}
