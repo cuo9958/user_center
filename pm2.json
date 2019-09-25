@@ -4,6 +4,7 @@
             "name": "user_center",
             "script": "index.js",
             "args": [],
+            "instances":1,
             "env": {
                 "NODE_ENV": "development"
             }
