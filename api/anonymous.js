@@ -35,7 +35,7 @@ router.post('/login', async function(ctx, next) {
             }
         });
     }
-    const sessionKey = UserUtil.getSessionKey();
+    const sessionKey = UserUtil.getToken();
     try {
         await AnonymousModel.insert(model);
         await UserModel.insert({ uuid: model.uuid });
@@ -70,7 +70,7 @@ router.get('/login', async function(ctx, next) {
             }
         });
     }
-    const sessionKey = UserUtil.getSessionKey();
+    const sessionKey = UserUtil.getToken();
     try {
         await AnonymousModel.insert(model);
         await UserModel.insert({ uuid: model.uuid });

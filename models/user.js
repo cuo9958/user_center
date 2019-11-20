@@ -15,27 +15,32 @@ const User = db.define(
             comment: '用户的uuid'
         },
         username: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(30),
             defaultValue: '',
             comment: '用户名'
         },
+        nickname: {
+            type: Sequelize.STRING(40),
+            defaultValue: '',
+            comment: '昵称'
+        },
         headimg: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(100),
             defaultValue: '',
             comment: '头像'
         },
         tell: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING(15),
             defaultValue: '',
             comment: '手机号'
         },
-        openid: {
-            type: Sequelize.STRING,
+        pwd: {
+            type: Sequelize.STRING(30),
             defaultValue: '',
-            comment: '微信的openid'
+            comment: '密码'
         },
         status: {
-            type: Sequelize.TINYINT,
+            type: Sequelize.TINYINT(2),
             defaultValue: 0,
             comment: '状态;0:失效;1:使用'
         }
@@ -73,6 +78,17 @@ module.exports = {
         return User.update(model, {
             where: {
                 uuid
+            }
+        });
+    },
+    /**
+     * 用户名密码登录
+     */
+    userLogin(username, pwd) {
+        return User.findOne({
+            where: {
+                username,
+                pwd
             }
         });
     }

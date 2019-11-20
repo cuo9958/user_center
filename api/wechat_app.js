@@ -17,7 +17,7 @@ const cache = new LRU({
 
 router.all('/login', async function(ctx, next) {
     const code = ctx.request.body.code || ctx.query.code;
-    const token = UserUtil.getSessionKey();
+    const token = UserUtil.getToken();
     let uuid = '';
     try {
         const res = await axios.get(
