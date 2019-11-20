@@ -12,6 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@alicloud/sms-sdk": "^1.1.6",
     "config": "^3.2.2",
     "ioredis": "^4.14.1",
     "json5": "^2.1.0",

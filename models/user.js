@@ -91,5 +91,16 @@ module.exports = {
                 pwd
             }
         });
+    },
+    /**
+     * 手机号登录
+     * @param {*} tell
+     */
+    tellLogin(tell) {
+        return User.findOne({
+            where: {
+                tell
+            }
+        });
     }
 };

@@ -18,5 +18,10 @@ module.exports = {
     wechat_app: {
         appid: '',
         secret: ''
+    },
+    //阿里云短信的key
+    sms: {
+        accessKeyId: '',
+        secretAccessKey: ''
     }
 };
