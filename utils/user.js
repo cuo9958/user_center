@@ -23,7 +23,7 @@ module.exports = {
         if (!data) return null;
         return JSON.parse(data);
     },
-    //快速检查用户身份
+    //快速检查用户身份,使用本地的10秒缓存和redis缓存
     async check(uuid, token) {
         const key = `user_${uuid}_${token}`;
         let data = cache.get(key);

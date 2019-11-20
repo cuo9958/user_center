@@ -10,7 +10,7 @@
 
 #### 用户鉴权
 
-GET `/api_user/user/auth?token=abc123`
+GET `/api_user/user/auth` head `token=123` `uuid=123`
 
 1. 参数：token:用户的 token
 2. 参数：uuid：用户的uuid
