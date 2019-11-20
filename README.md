@@ -1,12 +1,37 @@
-## 用户中心
+# 用户中心
 
-### 用户管理
+## 用户管理
+
+### 接口层
 
 #### 接口访问
 
 1. 所有接口访问都需要在header中携带uuid和token
 2. 根据不同的类型调用不用的登录
 3. 所有鉴权统一使用user下的auth接口
+
+#### 用户名秘密登录
+
+POST `/api_user/user/login`
+
+1. username
+2. pwd
+3. 返回用户信息和token
+
+#### 发送短信
+
+POST `/api_user/user/sms/code`
+
+1. tell
+2. 有效时间60秒
+
+#### 手机号短信登录
+
+POST `/api_user/user/sms/login`
+
+1. tell
+2. code
+3. 返回用户信息和token
 
 #### 用户鉴权
 
@@ -48,15 +73,19 @@ POST `/api_user/any/login`
 1. 传递设备参数，生成设备对应的唯一id
 2. 返回用户的uuid和token
 
-#### 小程序接口
+### 小程序接口
 
-##### 登录接口
+使用小程序的登录注册
+
+#### 登录接口
+
 GET/POST `/api_user/wechat_app/login`
 
 1. 参数：code。
 2. 返回：uuid、token
 
-##### 更新用户信息
+#### 更新用户信息
+
 POST `/api_user/wechat_app/update`
 
 1. 参数：微信返回的用户信息
