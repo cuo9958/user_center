@@ -24,6 +24,12 @@ module.exports = {
         if (cache.has(key)) return false;
         const val = await Redis.get(key);
         if (val) return false;
+        smsClient.sendSMS({
+            PhoneNumbers: tell,
+            SignName: '货车局',
+            TemplateCode: 'SMS_137460007',
+            TemplateParam: `{"code":"${code}"}`
+        });
         Redis.set(key, code, 'EX', 60);
         return true;
     },
