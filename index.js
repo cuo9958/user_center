@@ -24,6 +24,9 @@ router.use('/api_user/any', require('./api/anonymous').routers);
 //小程序
 router.use('/api_user/wechat_app', require('./api/wechat_app').routers);
 
+//服务之间的api
+router.use('/ctl_user/user', require('./controllers/index').routers);
+
 app.use(router.routes()).use(router.allowedMethods());
 
 app.on('error', (err, ctx) => console.error('server error', err));

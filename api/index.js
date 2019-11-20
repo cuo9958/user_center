@@ -1,52 +1,13 @@
 const Router = require('koa-router');
-const name = require('../utils/name');
-const config = require('config');
-const UserModel = require('../models/user');
-const Redis = require('../db/redis');
 const UserUtil = require('../utils/user');
 
 const router = new Router();
 
-router.get('/test', async function(ctx, next) {
-    const uuid = name.gentear(ctx.query, ctx.headers);
-    ctx.body = {
-        code: 1,
-        msg: '',
-        data: {
-            uuid
-        }
-    };
-});
-router.get('/', async function(ctx, next) {
-    const token = ctx.headers.token;
-    const uuid = ctx.headers.uuid;
-    try {
-        const model = await UserUtil.getSession(uuid, token);
-        ctx.body = {
-            code: 1,
-            data: {
-                uuid: model.uuid,
-                username: model.username,
-                headimg: model.headimg
-            }
-        };
-    } catch (error) {
-        console.log(error);
-        ctx.body = {
-            code: 0,
-            msg: '用户不存在'
-        };
-    }
-});
-
 /**
- * 需要的api:
- * 1.根据客户端参数生成对应的用户
- * 2.根据生成的用户id获取用户信息
- * 3.给用户信息绑定手机号、微信等
- * 4.用户鉴权校验
+ * 鉴权，判断用户的登录状态是否有效
+ * head uuid
+ * head token
  */
-
 router.get('/auth', async function(ctx, next) {
     const { token, uuid } = ctx.headers;
     try {
