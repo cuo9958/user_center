@@ -22,6 +22,10 @@ module.exports = {
     //阿里云短信的key
     sms: {
         accessKeyId: '',
-        secretAccessKey: ''
+        secretAccessKey: '',
+        //签名用的公司名
+        name: '',
+        //模版代号
+        template: 'SMS_137460007'
     }
 };

@@ -8,6 +8,9 @@ const smsClient = new SMSClient({
     secretAccessKey: config.get('sms.secretAccessKey')
 });
 
+const SignName = config.get('sms.name');
+const TemplateCode = config.get('sms.template');
+
 //60秒缓存
 const cache = new LRU({
     maxAge: 1000 * 60
@@ -26,8 +29,8 @@ module.exports = {
         if (val) return false;
         smsClient.sendSMS({
             PhoneNumbers: tell,
-            SignName: '货车局',
-            TemplateCode: 'SMS_137460007',
+            SignName,
+            TemplateCode: TemplateCode,
             TemplateParam: `{"code":"${code}"}`
         });
         Redis.set(key, code, 'EX', 60);
