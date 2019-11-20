@@ -32,18 +32,18 @@ module.exports = {
      * @param {*} tell
      * @param {*} code
      */
-    checkCode(tell, code) {
+    async checkCode(tell, code) {
         const key = `sms_${tell}_${code}`;
         if (cache.has(key)) {
             return code === cache.get(key);
         }
         const val = await Redis.get(key);
-        if(!val) return false;
-        return val===code
+        if (!val) return false;
+        return val === code;
     },
     createCode(len = 4) {
-        let code = Math.round(Math.random() * 10000) + "";
-        code = code.padStart(len, "0");
+        let code = Math.round(Math.random() * 10000) + '';
+        code = code.padStart(len, '0');
         return code;
     }
 };

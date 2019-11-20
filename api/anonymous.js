@@ -4,7 +4,7 @@
  * 2.鉴权
  */
 const Router = require('koa-router');
-const name = require('../utils/name');
+const name = require('../services/name');
 const AnonymousModel = require('../models/anonymous');
 const UserModel = require('../models/user');
 const UserUtil = require('../utils/user');
